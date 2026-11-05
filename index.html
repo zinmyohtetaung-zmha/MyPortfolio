@@ -1,669 +1,802 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Zin Myo Htet Aung - C# .NET Developer Portfolio">
-    <meta name="author" content="Zin Myo Htet Aung">
-    <meta name="theme-color" content="#0b0f19">
-
     <title>Zin Myo Htet Aung | C# .NET Developer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        // Tailwind dark mode configuration using class strategy
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brandPrimary: '#10b981', // Emerald 500
+                        brandSecondary: '#06b6d4', // Cyan 500
+                        darkBg: '#090d16',
+                        darkCard: '#111827',
+                        lightBg: '#f8fafc',
+                        lightCard: '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- Bootstrap 5.3 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-          crossorigin="anonymous">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer">
-
-    <!-- AOS -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="icon" href="image/pp.jpg" type="image/jpeg">
+    <style>
+        /* Custom scrollbar and glassmorphism helpers */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 4px;
+        }
+    </style>
 </head>
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 selection:bg-brandPrimary selection:text-white">
 
-<body>
+    <!-- Header / Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-colors duration-300 bg-white/90 dark:bg-darkBg/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="text-xl font-black tracking-wider text-slate-900 dark:text-white flex items-center gap-1 group">
+                <span class="text-brandPrimary group-hover:-translate-x-0.5 transition-transform">&lt;</span>
+                <span>ZIN MYO</span>
+                <span class="text-brandSecondary group-hover:translate-x-0.5 transition-transform">/&gt;</span>
+            </a>
 
-<!-- ================= NAVBAR ================= -->
-<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-    <div class="container">
-        <a class="navbar-brand" href="#home">
-            <span class="brand-accent">&lt;</span>PJ.ZIN<span class="brand-accent">/&gt;</span>
-        </a>
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-slate-700 dark:text-slate-200">
+                <a href="#about" class="hover:text-brandPrimary dark:hover:text-brandPrimary transition-colors">About</a>
+                <a href="#experience" class="hover:text-brandPrimary dark:hover:text-brandPrimary transition-colors">Experience</a>
+                <a href="#skills" class="hover:text-brandPrimary dark:hover:text-brandPrimary transition-colors">Skills</a>
+                <a href="#projects" class="hover:text-brandPrimary dark:hover:text-brandPrimary transition-colors">Projects</a>
+                <a href="#contact" class="hover:text-brandPrimary dark:hover:text-brandPrimary transition-colors">Contact</a>
+            </nav>
 
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <!-- Right Actions: Theme Switcher & Contact CTA -->
+            <div class="flex items-center gap-4">
+                <!-- Dark / Light Theme Toggle Button -->
+                <button id="theme-toggle" aria-label="Toggle dark/light theme" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-amber-400 hover:scale-105 transition-all shadow-sm">
+                    <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg hidden"></i>
+                    <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-lg"></i>
+                </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#about-me">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-                <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact-me">Contact</a></li>
-            </ul>
+                <!-- Desktop Contact CTA -->
+                <a href="#contact" class="hidden md:inline-flex px-5 py-2.5 rounded-xl bg-gradient-to-r from-brandPrimary to-brandSecondary text-white font-bold hover:shadow-lg hover:shadow-brandPrimary/25 transition-all duration-300 hover:-translate-y-0.5">
+                    Let's Connect
+                </a>
+
+                <!-- Mobile Menu Toggle Button -->
+                <button id="menu-btn" aria-label="Toggle navigation menu" class="md:hidden text-2xl text-slate-800 dark:text-slate-100 focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
-    </div>
-</nav>
 
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-darkCard border-b border-slate-200 dark:border-slate-800 px-6 py-6 flex flex-col gap-4 shadow-2xl">
+            <a href="#about" class="mobile-link text-slate-800 dark:text-slate-100 font-bold hover:text-brandPrimary">About</a>
+            <a href="#experience" class="mobile-link text-slate-800 dark:text-slate-100 font-bold hover:text-brandPrimary">Experience</a>
+            <a href="#skills" class="mobile-link text-slate-800 dark:text-slate-100 font-bold hover:text-brandPrimary">Skills</a>
+            <a href="#projects" class="mobile-link text-slate-800 dark:text-slate-100 font-bold hover:text-brandPrimary">Projects</a>
+            <a href="#contact" class="mobile-link text-brandPrimary font-extrabold">Contact Me</a>
+        </div>
+    </header>
 
-<!-- ================= HERO ================= -->
-<section id="home" class="hero-section">
-    <div class="hero-grid"></div>
+    <!-- Hero Section -->
+    <section class="min-h-screen pt-36 pb-20 flex items-center relative overflow-hidden">
+        <!-- Glowing Ambient Lighting Backgrounds -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brandPrimary/15 dark:bg-brandPrimary/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-10 w-80 h-80 bg-brandSecondary/15 dark:bg-brandSecondary/10 rounded-full blur-3xl pointer-events-none"></div>
 
-    <div class="container position-relative">
-        <div class="row align-items-center min-vh-100 py-5">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 w-full">
+            
+            <!-- Hero Content Left (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col items-start gap-6">
+                <!-- Developer Badge -->
+                <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-brandPrimary/10 border border-brandPrimary/30 text-brandPrimary dark:text-emerald-400 text-xs font-bold tracking-wide shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-brandPrimary animate-pulse"></span>
+                    <i class="fa-solid fa-code"></i> C# .NET Developer
+                </div>
 
-            <div class="col-lg-7 order-2 order-lg-1" data-aos="fade-right" data-aos-duration="1000">
-                <div class="hero-content">
-                    <p class="eyebrow">
-                        <span></span> Hello, I'm
-                    </p>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white">
+                    Building Next-Gen <br>
+                    <span class="bg-gradient-to-r from-brandPrimary via-teal-400 to-brandSecondary bg-clip-text text-transparent">Software Solutions</span>
+                </h1>
 
-                    <h1>
-                        Zin Myo<br>
-                        <span>Htet Aung</span>
-                    </h1>
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                    Hi, I'm <strong class="text-slate-900 dark:text-white font-bold">Zin Myo Htet Aung</strong>. I specialize in developing robust enterprise applications, high-performance desktop systems, and scalable backend workflows with C#, .NET, and Microsoft SQL Server.
+                </p>
 
-                    <h2>
-                        C# .NET Developer
-                    </h2>
+                <div class="flex flex-wrap items-center gap-4 pt-4">
+                    <a href="#projects" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-brandPrimary to-brandSecondary text-white font-bold hover:shadow-lg hover:shadow-brandPrimary/30 transition-all duration-300 flex items-center gap-2 group hover:-translate-y-0.5">
+                        View Projects <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#contact" class="px-7 py-3.5 rounded-xl bg-slate-200 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-semibold hover:border-brandPrimary dark:hover:border-brandPrimary transition-all duration-300">
+                        Let's Connect
+                    </a>
+                </div>
 
-                    <p class="hero-description">
-                        I build reliable desktop applications, business management
-                        systems and web solutions using C#, .NET, SQL Server and modern
-                        web technologies.
-                    </p>
-
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary-custom">
-                            View My Work <i class="fa-solid fa-arrow-down ms-2"></i>
-                        </a>
-                        <a href="#contact-me" class="btn btn-outline-custom">
-                            Contact Me
-                        </a>
+                <!-- Quick Stats -->
+                <div class="pt-6 grid grid-cols-3 gap-6 border-t border-slate-200 dark:border-slate-800/80 w-full max-w-lg mt-2">
+                    <div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white flex items-center">
+                            <span id="total-exp-years">2.5</span>+ <span class="text-xs text-brandPrimary ml-1 font-semibold">yrs</span>
+                        </div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Experience</div>
                     </div>
-
-                    <div class="social-links mt-4">
-                        <a href="https://www.facebook.com/profile.php?id=100014480317493"
-                           target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-
-                        <a href="https://www.facebook.com/messages/"
-                           target="_blank" rel="noopener noreferrer" aria-label="Messenger">
-                            <i class="fa-brands fa-facebook-messenger"></i>
-                        </a>
-
-                        <a href="mailto:your-email@example.com" aria-label="Email">
-                            <i class="fa-regular fa-envelope"></i>
-                        </a>
-
-                        <a href="https://www.instagram.com/pj.zinmyohtetaung/?hl=en"
-                           target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-
-                        <a href="YOUR_CV_LINK_HERE"
-                           target="_blank" rel="noopener noreferrer" aria-label="Download CV">
-                            <i class="fa-solid fa-file-arrow-down"></i>
-                        </a>
+                    <div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white">6+</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Key Projects</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white">100%</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Code Commitment</div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-5 order-1 order-lg-2 mb-5 mb-lg-0"
-                 data-aos="zoom-in" data-aos-duration="1200">
-                <div class="profile-wrapper">
-                    <div class="profile-glow"></div>
-                    <div class="profile-ring">
-                        <img src="image/pp.jpg"
+            <!-- Hero Visual Right (5 cols) -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+                    <!-- Outer Decorative Glowing Ring -->
+                    <div class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-brandPrimary via-teal-400 to-brandSecondary opacity-70 blur-xl animate-pulse"></div>
+                    
+                    <!-- Card Container -->
+                    <div class="relative w-full h-full rounded-3xl bg-white dark:bg-darkCard border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden p-6 flex flex-col justify-between">
+                        <!-- Code Visual Box -->
+                        <div class="rounded-2xl bg-slate-900 p-4 font-mono text-xs text-slate-300 shadow-inner overflow-hidden">
+                            <div class="flex items-center gap-1.5 mb-3">
+                                <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+                                <span class="text-[10px] text-slate-500 ml-2">Developer.cs</span>
+                            </div>
+                            <p><span class="text-purple-400">public class</span> <span class="text-yellow-300">SoftwareDeveloper</span></p>
+                            <p class="pl-4">{</p>
+                            <p class="pl-8"><span class="text-purple-400">public string</span> Name = <span class="text-emerald-400">"Zin Myo Htet Aung"</span>;</p>
+                            <p class="pl-8"><span class="text-purple-400">public string[]</span> PrimaryStack = { <span class="text-emerald-400">"C#"</span>, <span class="text-emerald-400">".NET"</span>, <span class="text-emerald-400">"SQL Server"</span> };</p>
+                            <p class="pl-8"><span class="text-purple-400">public bool</span> Passionated = <span class="text-amber-400">true</span>;</p>
+                            <p class="pl-4">}</p>
+                        </div>
+
+                        <!-- User Profile Info Footer -->
+                        <div class="flex items-center gap-4 bg-slate-100 dark:bg-slate-800/60 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700/50">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brandPrimary to-brandSecondary flex items-center justify-center font-extrabold text-white text-lg shadow-md">
+                                <img src="image/pp.jpg"
                              alt="Zin Myo Htet Aung"
-                             class="profile-image">
+                             class="profile-image rounded-xl">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-900 dark:text-white">Zin Myo Htet Aung</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5 mt-0.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Galaxy Software Co., Ltd.
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="floating-card card-code">
-                        <i class="fa-solid fa-code"></i>
-                        <span>C# .NET</span>
+                    <!-- Floating Badge Top Right -->
+                    <div class="absolute -top-4 -right-4 px-4 py-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl flex items-center gap-2.5 text-xs font-bold text-brandPrimary dark:text-emerald-400">
+                        <i class="fa-solid fa-laptop-code text-base"></i> Windows Forms & .NET
                     </div>
 
-                    <div class="floating-card card-db">
-                        <i class="fa-solid fa-database"></i>
-                        <span>SQL Server</span>
+                    <!-- Floating Badge Bottom Left -->
+                    <div class="absolute -bottom-4 -left-4 px-4 py-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl flex items-center gap-2.5 text-xs font-bold text-brandSecondary">
+                        <i class="fa-solid fa-database text-base"></i> SQL Server Expert
                     </div>
-
                 </div>
             </div>
 
         </div>
-    </div>
-</section>
+    </section>
 
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-slate-100/60 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brandPrimary text-xs font-bold tracking-widest uppercase bg-brandPrimary/10 px-3.5 py-1.5 rounded-full border border-brandPrimary/20">About Me</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-4">Professional Profile</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">Engineered for clean architecture, analytical problem solving, and enterprise performance.</p>
+            </div>
 
-<!-- ================= ABOUT ================= -->
-<section id="about-me" class="section-padding">
-    <div class="container">
-
-        <div class="section-heading" data-aos="fade-up">
-            <p class="section-label">ABOUT ME</p>
-            <h2>Building software with <span>purpose.</span></h2>
-            <p>
-                My professional journey and the technologies I work with.
-            </p>
-        </div>
-
-        <div class="row g-4 mt-2">
-
-            <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
-                <div class="about-card">
-                    <div class="about-icon">
-                        <i class="fa-solid fa-user-tie"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Profile Box 1 -->
+                <div class="bg-white dark:bg-darkCard p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-brandPrimary/40 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-brandPrimary/10 flex items-center justify-center text-brandPrimary text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-user-gear"></i>
                     </div>
-
-                    <h3>Who I Am</h3>
-
-                    <p>
-                        I'm a C# .NET Developer focused on developing business software
-                        and practical applications. I enjoy solving real-world problems,
-                        working with databases and improving existing systems.
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Who I Am</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                        A results-driven <strong class="text-slate-800 dark:text-slate-200">C# .NET Developer</strong> with a strong foundation in designing, building, and maintaining scalable enterprise software and desktop applications.
                     </p>
+                </div>
 
-                    <p>
-                        My experience includes desktop application development,
-                        SQL Server, software support, web development and Android/Java
-                        projects.
+                <!-- Profile Box 2 -->
+                <div class="bg-white dark:bg-darkCard p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-brandSecondary/40 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-brandSecondary/10 flex items-center justify-center text-brandSecondary text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Core Expertise</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                        Specialized in reliable backend logic, complex SQL Server stored procedures, query optimization, desktop application architectures, and full-stack web integration.
                     </p>
+                </div>
 
-                    <div class="quick-info">
-                        <div>
-                            <span>Focus</span>
-                            <strong>C# / .NET</strong>
-                        </div>
-                        <div>
-                            <span>Database</span>
-                            <strong>SQL Server</strong>
-                        </div>
-                        <div>
-                            <span>Development</span>
-                            <strong>Desktop & Web</strong>
-                        </div>
+                <!-- Profile Box 3 -->
+                <div class="bg-white dark:bg-darkCard p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-emerald-500/40 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-graduation-cap"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Education</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-2">
+                        <strong class="text-slate-800 dark:text-slate-200">University of Computer Studies, Banmaw</strong>
+                    </p>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold">2017 — 2020</p>
                 </div>
             </div>
-
-            <div class="col-lg-5" data-aos="fade-up" data-aos-delay="200">
-                <div class="timeline-card">
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div>
-                            <span class="timeline-date">July 2024 — Present</span>
-                            <h4>C# .NET Developer</h4>
-                            <p>Galaxy Software Co., Ltd.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div>
-                            <span class="timeline-date">Aug 2023 — July 2024</span>
-                            <h4>Software Support Technician</h4>
-                            <p>Galaxy Software Co., Ltd.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div>
-                            <span class="timeline-date">May 2023 — July 2023</span>
-                            <h4>Internship</h4>
-                            <p>Brycen Myanmar Co., Ltd.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div>
-                            <span class="timeline-date">June 2022 — April 2023</span>
-                            <h4>On Job Training</h4>
-                            <p>Host Myanmar — Mandalay</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item mb-0">
-                        <div class="timeline-dot"></div>
-                        <div>
-                            <span class="timeline-date">2017 — 2020</span>
-                            <h4>University of Computer Studies</h4>
-                            <p>Banmaw</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
+    <!-- Experience Timeline Section -->
+    <section id="experience" class="py-24">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brandPrimary text-xs font-bold tracking-widest uppercase bg-brandPrimary/10 px-3.5 py-1.5 rounded-full border border-brandPrimary/20">Career Journey</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-4">Professional Experience</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">Hands-on software development and technical support history.</p>
+            </div>
 
-<!-- ================= SKILLS ================= -->
-<section id="skills" class="section-padding section-alt">
-    <div class="container">
+            <!-- Timeline Outer Container -->
+            <div class="relative border-l-2 border-slate-200 dark:border-slate-800 ml-4 sm:ml-8 space-y-12">
+                
+                <!-- Experience Item 1 (Present Role) -->
+                <div class="relative pl-8 sm:pl-10 group">
+                    <!-- Timeline Node Indicator -->
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-brandPrimary border-4 border-white dark:border-darkBg shadow-md group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-white dark:bg-darkCard p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-brandPrimary/50 transition-all">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="text-xs font-bold text-brandPrimary uppercase tracking-wider bg-brandPrimary/10 px-3 py-1 rounded-full border border-brandPrimary/20">
+                                July 2024 — Present
+                            </span>
+                            <!-- Dynamic Duration Tag calculated via JS -->
+                            <span id="duration-present" class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                                Calculating...
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-2">C# .NET Developer</h3>
+                        <h4 class="text-sm font-semibold text-brandSecondary mb-4">Galaxy Software Co., Ltd.</h4>
+                        <ul class="text-slate-600 dark:text-slate-300 text-sm space-y-2 leading-relaxed list-disc list-inside">
+                            <li>Designing, developing, and maintaining core business management desktop applications using C#, .NET, and Windows Forms.</li>
+                            <li>Optimizing database structures, stored procedures, and complex SQL Server queries to handle high-volume enterprise transactions efficiently.</li>
+                            <li>Collaborating with cross-functional support and quality assurance teams to improve software stability.</li>
+                        </ul>
+                    </div>
+                </div>
 
-        <div class="section-heading" data-aos="fade-up">
-            <p class="section-label">MY SKILLS</p>
-            <h2>Tools I use to <span>build.</span></h2>
-            <p>
-                A combination of backend, desktop, database and frontend technologies.
-            </p>
+                <!-- Experience Item 2 -->
+                <div class="relative pl-8 sm:pl-10 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-slate-400 dark:bg-slate-700 border-4 border-white dark:border-darkBg group-hover:bg-brandPrimary transition-colors"></div>
+                    
+                    <div class="bg-white dark:bg-darkCard p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-brandPrimary/50 transition-all">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                Aug 2023 — July 2024
+                            </span>
+                            <!-- Duration Tag -->
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                                1 yr
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-2">Software Support Technician</h3>
+                        <h4 class="text-sm font-semibold text-brandSecondary mb-4">Galaxy Software Co., Ltd.</h4>
+                        <ul class="text-slate-600 dark:text-slate-300 text-sm space-y-2 leading-relaxed list-disc list-inside">
+                            <li>Provided high-level technical troubleshooting, system diagnosis, and database maintenance for enterprise clients.</li>
+                            <li>Identified system bugs and reported actionable development insights to technical teams.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience Item 3 -->
+                <div class="relative pl-8 sm:pl-10 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-slate-400 dark:bg-slate-700 border-4 border-white dark:border-darkBg group-hover:bg-brandPrimary transition-colors"></div>
+                    
+                    <div class="bg-white dark:bg-darkCard p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-brandPrimary/50 transition-all">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                May 2023 — July 2023
+                            </span>
+                            <!-- Duration Tag -->
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                                3 mos
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-2">Internship</h3>
+                        <h4 class="text-sm font-semibold text-brandSecondary mb-4">Brycen Myanmar Co., Ltd.</h4>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                            Gained foundational software engineering exposure, collaborative agile practices, and hands-on professional programming experience.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Experience Item 4 -->
+                <div class="relative pl-8 sm:pl-10 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-slate-400 dark:bg-slate-700 border-4 border-white dark:border-darkBg group-hover:bg-brandPrimary transition-colors"></div>
+                    
+                    <div class="bg-white dark:bg-darkCard p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-brandPrimary/50 transition-all">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                June 2022 — April 2023
+                            </span>
+                            <!-- Duration Tag -->
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                                11 mos
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-2">On Job Training</h3>
+                        <h4 class="text-sm font-semibold text-brandSecondary mb-4">Host Myanmar — Mandalay</h4>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                            Completed practical software development training, sharpening skills in system fundamentals, web basics, and desktop logic.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
         </div>
+    </section>
 
-        <div class="row g-4 mt-2">
-
-            <div class="col-md-6" data-aos="fade-right">
-                <div class="skill-card">
-                    <div class="skill-top">
-                        <div class="skill-name">
-                            <i class="fa-solid fa-code"></i>
-                            <span>C# / .NET</span>
-                        </div>
-                        <strong>90%</strong>
-                    </div>
-                    <div class="skill-track"><div style="width:90%"></div></div>
-                </div>
+    <!-- Tech Stack & Skills Section -->
+    <section id="skills" class="py-24 bg-slate-100/60 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brandPrimary text-xs font-bold tracking-widest uppercase bg-brandPrimary/10 px-3.5 py-1.5 rounded-full border border-brandPrimary/20">Technical Arsenal</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-4">Skills & Technologies</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">Languages, databases, frameworks, and developer tools I utilize.</p>
             </div>
 
-            <div class="col-md-6" data-aos="fade-left">
-                <div class="skill-card">
-                    <div class="skill-top">
-                        <div class="skill-name">
-                            <i class="fa-solid fa-database"></i>
-                            <span>SQL Server</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Skill 1 -->
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:-translate-y-1 hover:border-brandPrimary/50 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl text-brandPrimary"><i class="fa-solid fa-code"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">C# / .NET</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Backend & Core</span>
                         </div>
-                        <strong>90%</strong>
                     </div>
-                    <div class="skill-track"><div style="width:90%"></div></div>
+                    <span class="text-xs font-extrabold text-brandPrimary bg-brandPrimary/10 px-2.5 py-1 rounded-md">90%</span>
+                </div>
+
+                <!-- Skill 2 -->
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:-translate-y-1 hover:border-brandSecondary/50 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl text-brandSecondary"><i class="fa-solid fa-database"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">SQL Server</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Database & Stored Proc</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-extrabold text-brandSecondary bg-brandSecondary/10 px-2.5 py-1 rounded-md">90%</span>
+                </div>
+
+                <!-- Skill 3 -->
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl text-emerald-500"><i class="fa-solid fa-desktop"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Windows Forms</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Desktop Development</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-extrabold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-md">90%</span>
+                </div>
+
+                <!-- Skill 4 -->
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:-translate-y-1 hover:border-amber-500/50 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl text-amber-500"><i class="fa-brands fa-js"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">JavaScript</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Web Scripting</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-extrabold text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-md">80%</span>
+                </div>
+
+                <!-- Skill 5 -->
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:-translate-y-1 hover:border-orange-500/50 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl text-orange-500"><i class="fa-brands fa-html5"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">HTML5 / CSS3</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">UI Layouts</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-extrabold text-orange-500 bg-orange-500/10 px-2.5 py-1 rounded-md">85%</span>
+                </div>
+
+                <!-- Skill 6 -->
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:-translate-y-1 hover:border-indigo-500/50 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl text-indigo-500"><i class="fa-brands fa-bootstrap"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Bootstrap</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Frontend Styling</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-extrabold text-indigo-500 bg-indigo-500/10 px-2.5 py-1 rounded-md">85%</span>
+                </div>
+
+                <!-- Skill 7 -->
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:-translate-y-1 hover:border-red-500/50 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl text-red-500"><i class="fa-brands fa-laravel"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">PHP / Laravel</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Web Backend</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-extrabold text-red-500 bg-red-500/10 px-2.5 py-1 rounded-md">75%</span>
+                </div>
+
+                <!-- Skill 8 -->
+                <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:-translate-y-1 hover:border-sky-500/50 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl text-sky-500"><i class="fa-brands fa-java"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Java</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Desktop Apps</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-extrabold text-sky-500 bg-sky-500/10 px-2.5 py-1 rounded-md">70%</span>
                 </div>
             </div>
-
-            <div class="col-md-6" data-aos="fade-right">
-                <div class="skill-card">
-                    <div class="skill-top">
-                        <div class="skill-name">
-                            <i class="fa-solid fa-window-maximize"></i>
-                            <span>Windows Forms</span>
-                        </div>
-                        <strong>90%</strong>
-                    </div>
-                    <div class="skill-track"><div style="width:90%"></div></div>
-                </div>
-            </div>
-
-            <div class="col-md-6" data-aos="fade-left">
-                <div class="skill-card">
-                    <div class="skill-top">
-                        <div class="skill-name">
-                            <i class="fa-brands fa-js"></i>
-                            <span>JavaScript</span>
-                        </div>
-                        <strong>80%</strong>
-                    </div>
-                    <div class="skill-track"><div style="width:80%"></div></div>
-                </div>
-            </div>
-
-            <div class="col-md-6" data-aos="fade-right">
-                <div class="skill-card">
-                    <div class="skill-top">
-                        <div class="skill-name">
-                            <i class="fa-brands fa-html5"></i>
-                            <span>HTML / CSS</span>
-                        </div>
-                        <strong>85%</strong>
-                    </div>
-                    <div class="skill-track"><div style="width:85%"></div></div>
-                </div>
-            </div>
-
-            <div class="col-md-6" data-aos="fade-left">
-                <div class="skill-card">
-                    <div class="skill-top">
-                        <div class="skill-name">
-                            <i class="fa-brands fa-bootstrap"></i>
-                            <span>Bootstrap</span>
-                        </div>
-                        <strong>85%</strong>
-                    </div>
-                    <div class="skill-track"><div style="width:85%"></div></div>
-                </div>
-            </div>
-
-            <div class="col-md-6" data-aos="fade-right">
-                <div class="skill-card">
-                    <div class="skill-top">
-                        <div class="skill-name">
-                            <i class="fa-brands fa-php"></i>
-                            <span>PHP / Laravel</span>
-                        </div>
-                        <strong>75%</strong>
-                    </div>
-                    <div class="skill-track"><div style="width:75%"></div></div>
-                </div>
-            </div>
-
-            <div class="col-md-6" data-aos="fade-left">
-                <div class="skill-card">
-                    <div class="skill-top">
-                        <div class="skill-name">
-                            <i class="fa-brands fa-java"></i>
-                            <span>Java</span>
-                        </div>
-                        <strong>70%</strong>
-                    </div>
-                    <div class="skill-track"><div style="width:70%"></div></div>
-                </div>
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-
-<!-- ================= PROJECTS ================= -->
-<section id="projects" class="section-padding">
-    <div class="container">
-
-        <div class="section-heading" data-aos="fade-up">
-            <p class="section-label">MY WORK</p>
-            <h2>Selected <span>projects.</span></h2>
-            <p>
-                Some applications and systems I have built or worked on.
-            </p>
-        </div>
-
-        <div class="row g-4 mt-2">
-
-            <!-- Project 1 -->
-            <div class="col-md-6 col-xl-4" data-aos="fade-up">
-                <article class="project-card">
-                    <div class="project-image">
-                        <img src="image/ic.png" alt="Inventory Control project">
-                        <div class="project-overlay">
-                            <a href="https://github.com/zinmyohtetaung-zmha/POS"
-                               target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="project-body">
-                        <span class="project-number">01</span>
-                        <h3>Inventory Control</h3>
-                        <p>
-                            A desktop inventory and business management application
-                            developed with C# .NET and Windows Forms.
-                        </p>
-                        <div class="tech-tags">
-                            <span>C# .NET</span>
-                            <span>Windows Forms</span>
-                            <span>SQL Server</span>
-                        </div>
-                    </div>
-                </article>
+    <!-- Projects Section -->
+    <section id="projects" class="py-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brandPrimary text-xs font-bold tracking-widest uppercase bg-brandPrimary/10 px-3.5 py-1.5 rounded-full border border-brandPrimary/20">Featured Work</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-4">Selected Projects</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">Solutions developed spanning enterprise software, calculators, and portals.</p>
             </div>
 
-            <!-- Project 2 -->
-            <div class="col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="100">
-                <article class="project-card">
-                    <div class="project-image">
-                        <img src="image/gc.png" alt="Gold Calculator project">
-                        <div class="project-overlay">
-                            <a href="https://vigilant-bartik-30bd97.netlify.app/"
-                               target="_blank" rel="noopener noreferrer">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="project-body">
-                        <span class="project-number">02</span>
-                        <h3>Gold Calculator</h3>
-                        <p>
-                            A responsive web calculator designed for gold-related
-                            calculations with a simple user interface.
-                        </p>
-                        <div class="tech-tags">
-                            <span>HTML</span>
-                            <span>CSS</span>
-                            <span>JavaScript</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="200">
-                <article class="project-card">
-                    <div class="project-image">
-                        <img src="image/ams.jpg" alt="Attendance Management System">
-                        <div class="project-overlay">
-                            <a href="https://github.com/zinmyohtetaung-zmha/Attendance-Mangement-System"
-                               target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="project-body">
-                        <span class="project-number">03</span>
-                        <h3>Attendance Management</h3>
-                        <p>
-                            A Java desktop application for managing attendance
-                            records through a graphical user interface.
-                        </p>
-                        <div class="tech-tags">
-                            <span>Java</span>
-                            <span>GUI</span>
-                            <span>Scene Builder</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Project 4 -->
-            <div class="col-md-6 col-xl-4" data-aos="fade-up">
-                <article class="project-card">
-                    <div class="project-image">
-                        <img src="image/prs.jpg" alt="Product Registration System">
-                        <div class="project-overlay">
-                            <a href="https://github.com/zinmyohtetaung-zmha/product-registration-system"
-                               target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="project-body">
-                        <span class="project-number">04</span>
-                        <h3>Product Registration</h3>
-                        <p>
-                            A Laravel-based web application for registering and
-                            managing product information.
-                        </p>
-                        <div class="tech-tags">
-                            <span>PHP</span>
-                            <span>Laravel</span>
-                            <span>Blade</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Project 5 -->
-            <div class="col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="100">
-                <article class="project-card">
-                    <div class="project-image">
-                        <img src="image/ec.png" alt="Expense Account project">
-                        <div class="project-overlay">
-                            <a href="https://github.com/zinmyohtetaung-zmha/expense-account"
-                               target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="project-body">
-                        <span class="project-number">05</span>
-                        <h3>Expense Account</h3>
-                        <p>
-                            A Laravel application for recording and managing
-                            expense-related account information.
-                        </p>
-                        <div class="tech-tags">
-                            <span>PHP</span>
-                            <span>Laravel</span>
-                            <span>Blade</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Project 6 -->
-            <div class="col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="200">
-                <article class="project-card">
-                    <div class="project-image">
-                        <img src="image/hmi.jpg" alt="HMI Template project">
-                        <div class="project-overlay">
-                            <a href="https://github.com/zinmyohtetaung-zmha/hmi-template"
-                               target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="project-body">
-                        <span class="project-number">06</span>
-                        <h3>HMI Template</h3>
-                        <p>
-                            A clean frontend template created for human-machine
-                            interface style layouts.
-                        </p>
-                        <div class="tech-tags">
-                            <span>HTML</span>
-                            <span>CSS</span>
-                            <span>JavaScript</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-<!-- ================= CONTACT ================= -->
-<section id="contact-me" class="section-padding section-alt">
-    <div class="container">
-
-        <div class="section-heading" data-aos="fade-up">
-            <p class="section-label">GET IN TOUCH</p>
-            <h2>Let's work <span>together.</span></h2>
-            <p>
-                Have a project, opportunity or question? Send me a message.
-            </p>
-        </div>
-
-        <div class="row justify-content-center mt-3">
-            <div class="col-lg-8" data-aos="zoom-in">
-
-                <div class="contact-card">
-                    <form action="submit.php" method="post">
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name"
-                                       placeholder="Your name" required>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email"
-                                       placeholder="your@email.com" required>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="message">Message</label>
-                                <textarea id="message" name="message"
-                                          rows="5"
-                                          placeholder="Tell me about your project..."
-                                          required></textarea>
-                            </div>
-
-                            <div class="col-12 text-end">
-                                <button type="submit" class="btn btn-primary-custom">
-                                    Send Message
-                                    <i class="fa-solid fa-paper-plane ms-2"></i>
-                                </button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project Card 1 -->
+                <div class="bg-white dark:bg-darkCard rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-2xl hover:border-brandPrimary/50 transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-7">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-black text-brandPrimary bg-brandPrimary/10 px-3 py-1 rounded-full">PROJECT 01</span>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-brandPrimary group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-box text-sm"></i>
                             </div>
                         </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-brandPrimary transition-colors">Inventory Control System</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                            A comprehensive desktop business application engineered for tracking stock, sales operations, suppliers, and enterprise inventory reports.
+                        </p>
+                    </div>
+                    <div class="px-7 pb-7 pt-0 flex flex-wrap gap-2">
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">C# .NET</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Windows Forms</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">SQL Server</span>
+                    </div>
+                </div>
 
-                    </form>
+                <!-- Project Card 2 -->
+                <div class="bg-white dark:bg-darkCard rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-2xl hover:border-brandSecondary/50 transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-7">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-black text-brandSecondary bg-brandSecondary/10 px-3 py-1 rounded-full">PROJECT 02</span>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-brandSecondary group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-calculator text-sm"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-brandSecondary transition-colors">Gold Calculator</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                            A responsive web utility built for fast, accurate gold measurement calculations, currency conversions, and weight computations.
+                        </p>
+                    </div>
+                    <div class="px-7 pb-7 pt-0 flex flex-wrap gap-2">
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">HTML5</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS3</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">JavaScript</span>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="bg-white dark:bg-darkCard rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-2xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-7">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-black text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full">PROJECT 03</span>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-clipboard-user text-sm"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-emerald-500 transition-colors">Attendance Management</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                            A desktop GUI application developed to track staff attendance, generate duty logs, and manage employee records systematically.
+                        </p>
+                    </div>
+                    <div class="px-7 pb-7 pt-0 flex flex-wrap gap-2">
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Java</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">JavaFX</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Scene Builder</span>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div class="bg-white dark:bg-darkCard rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-2xl hover:border-red-500/50 transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-7">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-black text-red-500 bg-red-500/10 px-3 py-1 rounded-full">PROJECT 04</span>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-red-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-barcode text-sm"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-red-500 transition-colors">Product Registration</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                            A secure web portal designed to streamline product cataloging, category tags, and registration workflows for corporate products.
+                        </p>
+                    </div>
+                    <div class="px-7 pb-7 pt-0 flex flex-wrap gap-2">
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">PHP</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Laravel</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Blade</span>
+                    </div>
+                </div>
+
+                <!-- Project Card 5 -->
+                <div class="bg-white dark:bg-darkCard rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-2xl hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-7">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-black text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">PROJECT 05</span>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-file-invoice-dollar text-sm"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-amber-500 transition-colors">Expense Account System</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                            An internal financial portal built for recording business expenditures, auditing financial logs, and summarizing department budgets.
+                        </p>
+                    </div>
+                    <div class="px-7 pb-7 pt-0 flex flex-wrap gap-2">
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">PHP</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Laravel</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">MySQL</span>
+                    </div>
+                </div>
+
+                <!-- Project Card 6 -->
+                <div class="bg-white dark:bg-darkCard rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-2xl hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-7">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-black text-indigo-500 bg-indigo-500/10 px-3 py-1 rounded-full">PROJECT 06</span>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-gauge-high text-sm"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-indigo-500 transition-colors">HMI Dashboard Template</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                            A Human-Machine Interface dashboard user template for industrial software metrics, real-time device states, and telemetry data.
+                        </p>
+                    </div>
+                    <div class="px-7 pb-7 pt-0 flex flex-wrap gap-2">
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">HTML5</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS3</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">JavaScript</span>
+                    </div>
                 </div>
 
             </div>
         </div>
+    </section>
 
-    </div>
-</section>
+    <!-- Contact Form Section -->
+    <section id="contact" class="py-24 bg-slate-100/60 dark:bg-slate-900/40 border-t border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brandPrimary text-xs font-bold tracking-widest uppercase bg-brandPrimary/10 px-3.5 py-1.5 rounded-full border border-brandPrimary/20">Get In Touch</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-4">Let's Build Something Great</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">Open for C# .NET engineering roles, enterprise software consulting, and inquiries.</p>
+            </div>
 
+            <!-- Form Card -->
+            <div class="bg-white dark:bg-darkCard p-8 sm:p-12 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+                <form id="contact-form" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="user-name" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Your Name</label>
+                            <input type="text" id="user-name" placeholder="John Doe" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-brandPrimary dark:focus:border-brandPrimary transition-colors">
+                        </div>
+                        <div>
+                            <label for="user-email" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Your Email</label>
+                            <input type="email" id="user-email" placeholder="john@example.com" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-brandPrimary dark:focus:border-brandPrimary transition-colors">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="user-message" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Your Message</label>
+                        <textarea id="user-message" rows="5" placeholder="Hi Zin Myo, I would like to discuss a project..." required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-brandPrimary dark:focus:border-brandPrimary transition-colors"></textarea>
+                    </div>
 
-<!-- ================= FOOTER ================= -->
-<footer>
-    <div class="container">
-        <div class="footer-content">
-            <a href="#home" class="navbar-brand">
-                <span class="brand-accent">&lt;</span>ZIN<span class="brand-accent">/&gt;</span>
-            </a>
+                    <!-- Custom Alert Box -->
+                    <div id="form-feedback" class="hidden p-4 rounded-xl text-sm font-semibold"></div>
 
-            <p>
-                © <span id="currentYear"></span> Zin Myo Htet Aung. All rights reserved.
-            </p>
-
-            <a href="#home" class="back-top" aria-label="Back to top">
-                <i class="fa-solid fa-arrow-up"></i>
-            </a>
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brandPrimary to-brandSecondary text-white font-bold hover:shadow-lg hover:shadow-brandPrimary/25 transition-all duration-300 flex items-center justify-center gap-2">
+                        <span>Send Message</span>
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
-</footer>
+    </section>
 
+    <!-- Footer -->
+    <footer class="py-12 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500 dark:text-slate-400">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-2">
+                <span class="text-brandPrimary font-bold">&lt; ZM /&gt;</span>
+                <span>&copy; <span id="current-year"></span> Zin Myo Htet Aung. All rights reserved.</span>
+            </div>
 
-<!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYJwRkvc0XK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+            <!-- Social Links -->
+            <div class="flex items-center gap-5 text-lg">
+                <a href="https://pjzinmyo.vercel.app/" target="_blank" rel="noopener" aria-label="Website" class="w-10 h-10 rounded-xl bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center hover:text-brandPrimary hover:scale-110 transition-all">
+                    <i class="fa-solid fa-globe text-sm"></i>
+                </a>
+                <a href="#" aria-label="GitHub" class="w-10 h-10 rounded-xl bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center hover:text-brandPrimary hover:scale-110 transition-all">
+                    <i class="fa-brands fa-github text-sm"></i>
+                </a>
+                <a href="#" aria-label="LinkedIn" class="w-10 h-10 rounded-xl bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center hover:text-brandPrimary hover:scale-110 transition-all">
+                    <i class="fa-brands fa-linkedin-in text-sm"></i>
+                </a>
+                <a href="mailto:zinmyohtetaung@example.com" aria-label="Email" class="w-10 h-10 rounded-xl bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center hover:text-brandPrimary hover:scale-110 transition-all">
+                    <i class="fa-solid fa-envelope text-sm"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
 
-<!-- AOS -->
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <!-- Interactive Logic JavaScript -->
+    <script>
+        // Set dynamic copyright year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-<!-- Custom JS -->
-<script src="index.js"></script>
+        /* ==========================================================================
+           1. DARK / LIGHT THEME TOGGLE LOGIC
+           ========================================================================== */
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
 
+        // Check stored theme preference or fall back to system dark mode preference
+        function initTheme() {
+            const userTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (userTheme === 'dark' || (!userTheme && systemPrefersDark)) {
+                document.documentElement.classList.add('dark');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            if (isDark) {
+                localStorage.setItem('theme', 'dark');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            } else {
+                localStorage.setItem('theme', 'light');
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            }
+        });
+
+        initTheme();
+
+        /* ==========================================================================
+           2. DYNAMIC WORK DURATION CALCULATOR (Years & Months)
+           ========================================================================== */
+        function calculatePresentDuration() {
+            const startDate = new Date(2024, 6, 1); // July 2024 (Month index 6)
+            const endDate = new Date(); // Current date dynamically
+
+            let years = endDate.getFullYear() - startDate.getFullYear();
+            let months = endDate.getMonth() - startDate.getMonth();
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Format output (e.g., "1 yr 8 mos" or "2 yrs 1 mo")
+            let durationText = '';
+            if (years > 0) {
+                durationText += `${years} ${years === 1 ? 'yr' : 'yrs'}`;
+            }
+            if (months > 0) {
+                if (durationText) durationText += ' ';
+                durationText += `${months} ${months === 1 ? 'mo' : 'mos'}`;
+            }
+            if (!durationText) {
+                durationText = 'Less than 1 mo';
+            }
+
+            const presentTag = document.getElementById('duration-present');
+            if (presentTag) {
+                presentTag.textContent = durationText;
+            }
+
+            // Update Total Overall Tech Experience (starting from June 2022 training)
+            const totalStart = new Date(2022, 5, 1); // June 2022
+            let totalYears = (endDate - totalStart) / (1000 * 60 * 60 * 24 * 365.25);
+            const totalExpSpan = document.getElementById('total-exp-years');
+            if (totalExpSpan) {
+                totalExpSpan.textContent = totalYears.toFixed(1);
+            }
+        }
+
+        calculatePresentDuration();
+
+        /* ==========================================================================
+           3. MOBILE NAVIGATION MENU TOGGLE
+           ========================================================================== */
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        /* ==========================================================================
+           4. CONTACT FORM HANDLING
+           ========================================================================== */
+        const contactForm = document.getElementById('contact-form');
+        const formFeedback = document.getElementById('form-feedback');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formFeedback.classList.remove('hidden', 'bg-red-500/10', 'text-red-500');
+            formFeedback.classList.add('bg-emerald-500/10', 'text-emerald-500', 'border', 'border-emerald-500/30');
+            formFeedback.innerHTML = '<i class="fa-solid fa-circle-check mr-2"></i> Thank you! Your message has been sent successfully.';
+            contactForm.reset();
+
+            setTimeout(() => {
+                formFeedback.classList.add('hidden');
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
